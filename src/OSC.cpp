@@ -39,20 +39,20 @@ void error_handler(int num, const char *msg, const char *path){
 }
 
 int generic_handler(const char *path, const char *types, lo_arg **argv,
-		    int argc, void *data, void *user_data)
+		    int argc, lo_message msg, void *user_data)
 {
     return 1;
 }
 
 int pause_handler(const char *path, const char *types, lo_arg **argv,
- 		    int argc, void *data, void *user_data)
+ 		    int argc, lo_message msg, void *user_data)
 {
     if (engine->GetPaused() == 0)
         engine->PauseImmediately();
     return 0;
 }
 int unpause_handler(const char *path, const char *types, lo_arg **argv,
- 		    int argc, void *data, void *user_data)
+ 		    int argc, lo_message msg, void *user_data)
 {
     if (engine->GetPaused() == 1)
         engine->Unpause();
@@ -60,21 +60,21 @@ int unpause_handler(const char *path, const char *types, lo_arg **argv,
 }
 
 int tempo_handler(const char *path, const char *types, lo_arg **argv,
- 		    int argc, void *data, void *user_data)
+ 		    int argc, lo_message msg, void *user_data)
 {
     double tmp = argv[0]->f;
     engine->SetTempo(tmp);
     return 0;
 }
 int sync_handler(const char *path, const char *types, lo_arg **argv,
- 		    int argc, void *data, void *user_data)
+ 		    int argc, lo_message msg, void *user_data)
 {
     if (!engine->GetPaused()) //do not sync while in pause!
         engine->Sync();
     return 0;
 }
 int events_handler(const char *path, const char *types, lo_arg **argv,
- 		    int argc, void *data, void *user_data)
+ 		    int argc, lo_message msg, void *user_data)
 {
     int TAG = argv[0]->i;
     // For now it is the UI thread that processes events.
